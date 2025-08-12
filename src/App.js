@@ -8,6 +8,8 @@ import VolunteerDetail from "./pages/VolunteerDetail";
 import Footer from './components/Footer';
 import Donate from "./pages/Donate";
 import Organizations from "./pages/Organization";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
         <Route path="/organization" element={<Organizations />} />
         <Route path="/volunteer/:id" element={<VolunteerDetail />} />
         <Route path="/donation" element={<Donate />} />
-
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Add more routes like <Route path="/volunteer" element={<VolunteerJobs />} /> */}
       </Routes>
