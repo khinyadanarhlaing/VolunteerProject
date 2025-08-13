@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import vol1 from "../assets/vol1.png";
 import vol2 from "../assets/vol2.png";
@@ -12,7 +12,8 @@ import unicef from "../assets/unicef.png";
 import savethechildren from "../assets/savethechildren.png";
 import bgImage from "../assets/volunteer-bg.png";
 
-const volunteerOpportunities = [
+// Static mock data (will be replaced by backend later)
+const staticVolunteerOpportunities = [
   { id: 1, image: vol1, title: "Answer the Call: Help Rebuild After the Floods", description: "Communities are struggling after devastating floods and your time can make all the difference. Join our volunteer efforts to deliver aid, support families, and help rebuild what was lost.", date: "23rd July, 2025", org: "UNICEF", orgLogo: unicef, category: "Education", location: "Yangon"},
   { id: 2, image: vol2, title: "Spread Knowledge, Spark Change", description: "Communities are struggling after devastating floods and your time can make all the difference. Join our volunteer efforts to deliver aid, support families, and help rebuild what was lost.", date: "23rd July, 2025", org: "UNICEF", orgLogo: unicef, category: "Health", location: "Mandalay"},
   { id: 3, image: vol3, title: "Every Child Deserves a Chance", description: "Communities are struggling after devastating floods and your time can make all the difference. Join our volunteer efforts to deliver aid, support families, and help rebuild what was lost.", date: "23rd July, 2025", org: "UNICEF", orgLogo: unicef, category: "Education", location: "Yangon"},
@@ -24,12 +25,24 @@ const volunteerOpportunities = [
 ];
 
 export default function Volunteering() {
+  const [volunteers, setVolunteers] = useState(staticVolunteerOpportunities);
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [sort, setSort] = useState("Recent");
   const [search, setSearch] = useState("");
 
-  const filteredVolunteers = volunteerOpportunities.filter((item) => {
+  // 🔹 Ready for backend API
+  useEffect(() => {
+    // Uncomment and adjust URL when backend is ready
+    /*
+    fetch("https://your-backend-api.com/volunteers")
+      .then((res) => res.json())
+      .then((data) => setVolunteers(data))
+      .catch((err) => console.error("Error fetching volunteers:", err));
+    */
+  }, []);
+
+  const filteredVolunteers = volunteers.filter((item) => {
     return (
       (category === "" || item.category === category) &&
       (location === "" || item.location === location) &&
@@ -42,15 +55,13 @@ export default function Volunteering() {
       className="min-h-screen py-8 bg-cover bg-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      {/* Title */}
       <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 text-center mb-6">
         Become Volunteer
       </h1>
 
-      {/* Filters + Search Bar inside aligned container */}
+      {/* Filters */}
       <div className="max-w-6xl mx-auto px-4 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-5 flex-wrap bg-transparent p-4 rounded-lg">
-          {/* Category Filter */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-5 flex-wrap p-4">
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -62,7 +73,6 @@ export default function Volunteering() {
             <option value="Environment">Environment</option>
           </select>
 
-          {/* Location Filter */}
           <select
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -74,7 +84,6 @@ export default function Volunteering() {
             <option value="Naypyidaw">Naypyidaw</option>
           </select>
 
-          {/* Sort Filter */}
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
@@ -84,7 +93,6 @@ export default function Volunteering() {
             <option value="Most Engaged">Most Engaged</option>
           </select>
 
-          {/* Search Input with Icon */}
           <div className="relative w-full md:w-auto flex-grow">
             <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -107,7 +115,7 @@ export default function Volunteering() {
         <hr className="mb-8" />
       </div>
 
-      {/* Cards */}
+      {/* Volunteer Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto px-4">
         {filteredVolunteers.map((volunteer) => (
           <Link
@@ -141,7 +149,7 @@ export default function Volunteering() {
         ))}
       </div>
 
-      {/* Pagination (right-aligned) */}
+      {/* Pagination */}
       <div className="flex justify-end max-w-6xl mx-auto px-4 mt-12 mb-20 space-x-4">
         <button className="w-8 h-8 rounded-full bg-[#F180FE] text-white text-sm font-bold">1</button>
         <button className="w-8 h-8 rounded-full border border-[#F180FE] text-[#F180FE] text-sm hover:bg-[#F180FE] hover:text-white">2</button>
